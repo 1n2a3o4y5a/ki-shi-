@@ -1,0 +1,75 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+a_10000 = np.random.rand(10000)
+b_10000 = np.random.randn(10000)
+a_1000  = np.random.rand(1000)
+b_1000 = np.random.randn(1000)
+a_100 = np.random.rand(100)
+b_100 = np.random.randn(100)
+
+#c = np.randn(100)
+
+mean_a_10000 = np.mean(a_10000)
+var_a_10000 = np.var(a_10000)
+mean_a_10000 = np.round(mean_a_10000,decimals=3)
+var_a_10000 = np.round(var_a_10000,decimals=3)
+mean_b_10000= np.mean(b_10000)
+var_b_10000 = np.var(b_10000)
+mean_b_10000 = np.round(mean_b_10000,decimals=3)
+var_b_10000 = np.round(var_b_10000,decimals=3)
+
+mean_a_1000 = np.mean(a_1000)
+var_a_1000 = np.var(a_1000)
+mean_a_1000 = np.round(mean_a_1000,decimals=3)
+var_a_1000 = np.round(var_a_1000,decimals=3)
+mean_b_1000= np.mean(b_1000)
+var_b_1000 = np.var(b_1000)
+mean_b_1000 = np.round(mean_b_1000,decimals=3)
+var_b_1000 = np.round(var_b_1000,decimals=3)
+
+mean_a_100 = np.mean(a_100)
+var_a_100 = np.var(a_100)
+mean_a_100 = np.round(mean_a_100,decimals=3)
+var_a_100 = np.round(var_a_100,decimals=3)
+mean_b_100= np.mean(b_100)
+var_b_100 = np.var(b_100)
+mean_b_100 = np.round(mean_b_100,decimals=3)
+var_b_100 = np.round(var_b_100,decimals=3)
+
+plt.title("a_10000_mean="+str(mean_a_10000)+" b_10000_var"+str(var_a_10000))
+plt.xlabel("value")
+plt.ylabel("frequency")
+plt.hist(a_10000,bins=50)
+plt.show()
+
+plt.title("b_10000_mean="+str(mean_b_10000)+" b_10000_var="+str(var_b_10000))
+plt.xlabel("value")
+plt.ylabel("frequency")
+plt.hist(b_10000,bins=50)
+plt.show()
+
+plt.title("a_1000_mean="+str(mean_a_1000)+" a_1000_var="+str(var_a_1000))
+plt.xlabel("value")
+plt.ylabel("frequency")
+plt.hist(a_1000,bins=50)
+plt.show()
+
+plt.title("b_1000_mean="+str(mean_b_1000)+" b_1000_var="+str(var_b_1000))
+plt.xlabel("value")
+plt.ylabel("frequency")
+plt.hist(b_1000,bins=50)
+plt.show()
+
+plt.title("a_100_mean="+str(mean_a_100)+" a_100_var="+str(var_a_100))
+plt.xlabel("value")
+plt.ylabel("frequency")
+plt.hist(a_100,bins=50)
+plt.show()
+
+plt.title("b_100_mean="+str(mean_b_100)+" b_100_var="+str(var_b_100))
+plt.xlabel("value")
+plt.ylabel("frequency")
+plt.hist(b_100,bins=50)
+plt.show()
