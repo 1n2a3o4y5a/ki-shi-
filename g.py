@@ -127,3 +127,5 @@ plt.figure(figsize=(3,3))
 #show_data2(X,T3)
 #show_contour_logistic3(W)
 plt.show()
+
+#pythonで学ぶあたらしい！機械学習の教科書
