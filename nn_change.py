@@ -1,14 +1,14 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn import cluster
-from sklearn.cluster import KMeans
+from sklearn.model_selection import train_test_split
+from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import f1_score
 
 f1_score = []
 r = []
-for i in range(0,500,50):
-    #乱数の作成
+for i in range(0,30,1):
     np.random.seed(0)
     array1 = np.random.normal(0,1,(10000,3))
     array2 = np.random.normal(0,1,(10000,3))
@@ -24,8 +24,10 @@ for i in range(0,500,50):
     df_experiment = pd.DataFrame(experiment)
     df_experiment["target"] = target
 
-    #e = cluster.KMeans(n_clusters=2,random_state=0)
-    #e.fit(experiment)
+    X = df_experiment
+    y = df_experiment["target"]
+    nn = MLPClassifier(solver="sgd",random_state=0,max_iter=10000)
+    nn.fit(X,y)
 
     np.random.seed(1)
     array1_1 = np.random.normal(0,1,(10000,3))
@@ -44,14 +46,13 @@ for i in range(0,500,50):
     X2 = df_experiment_1
     y2 = df_experiment_1["target"]
 
-    pre = KMeans(n_clusters=2,random_state=0).fit_predict(df_experiment_1)
-    predict = []
-    for j in pre:
-        predict.append(j)
-    matrix = confusion_matrix(df_experiment_1["target"].values.tolist(), predict)
+
+    #print(nn.score(df_experiment, df_experiment["target"]))
+
+    predict = nn.predict(df_experiment_1)
+    matrix = confusion_matrix(df_experiment_1["target"],predict)
     print(matrix)
 
-    #Fスコア計算
     TP = matrix[1,1]
     FP = matrix[0,1]
     FN = matrix[1,0]

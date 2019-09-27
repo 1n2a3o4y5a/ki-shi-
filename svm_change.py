@@ -2,12 +2,13 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import cluster
-from sklearn.cluster import KMeans
+from sklearn import svm
 from sklearn.metrics import confusion_matrix
+
 
 f1_score = []
 r = []
-for i in range(0,500,50):
+for i in range(0,30,1):
     #乱数の作成
     np.random.seed(0)
     array1 = np.random.normal(0,1,(10000,3))
@@ -23,9 +24,11 @@ for i in range(0,500,50):
     target[501:] = 0
     df_experiment = pd.DataFrame(experiment)
     df_experiment["target"] = target
+    X = df_experiment
+    y = df_experiment["target"]
 
-    #e = cluster.KMeans(n_clusters=2,random_state=0)
-    #e.fit(experiment)
+    clf = svm.SVC()
+    clf.fit(X, y)
 
     np.random.seed(1)
     array1_1 = np.random.normal(0,1,(10000,3))
@@ -44,14 +47,10 @@ for i in range(0,500,50):
     X2 = df_experiment_1
     y2 = df_experiment_1["target"]
 
-    pre = KMeans(n_clusters=2,random_state=0).fit_predict(df_experiment_1)
-    predict = []
-    for j in pre:
-        predict.append(j)
-    matrix = confusion_matrix(df_experiment_1["target"].values.tolist(), predict)
+    predict = clf.predict(X2)
+    matrix = confusion_matrix(df_experiment["target"],predict)
     print(matrix)
 
-    #Fスコア計算
     TP = matrix[1,1]
     FP = matrix[0,1]
     FN = matrix[1,0]

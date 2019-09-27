@@ -1,3 +1,9 @@
+
+# coding: utf-8
+
+# In[6]:
+
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -6,7 +12,7 @@ import matplotlib.pyplot as plt
 #y:seed
 #z:分散
 def fun(x,y,z):
-    df = pd
+    df = pd.DataFrame()
     for i in range(0,x,int(x / 10)):
         np.random.seed(y)
         array1 = np.random.normal(0,1,(10000,3))
@@ -21,7 +27,16 @@ def fun(x,y,z):
         target[:500] = 1
         target[501:] = 0
         df_experiment = pd.DataFrame(experiment)
-        df_experiment["target"] = target
+        df = df.append(df_experiment)
+        return df
 
 
-fun(500,1,24)
+
+
+# In[16]:
+
+
+#import mk_datasets
+import pprint
+pprint.pprint(mk_datasets)
+
