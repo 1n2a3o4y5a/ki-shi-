@@ -1,21 +1,23 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import f1_score
 
-f1_score = []
-r = []
-for i in range(0,30,1):
-    np.random.seed(0)
+
+#x:ノイズ調整
+#y:seed
+#z:分散
+def fun(x,y,z):
+    df = pd.DataFrame()
+    np.random.seed(y)
     array1 = np.random.normal(0,1,(10000,3))
     array2 = np.random.normal(0,1,(10000,3))
-    array3 = np.random.normal(0,24,(1,3))
-    array4 = np.random.normal(0,24,(i,3))
-    array2[:i] = array2[:i] + array4
-    array2[i:501] = array2[i:501] + array3
+    array3 = np.random.normal(0,z,(1,3))
+    array4 = np.random.normal(0,z,(x,3))
+    array2[:x] = array2[:x] + array4
+    array2[x:501] = array2[x:501] + array3
     experiment = array2
     #実験群をデータフレーム化
     target = pd.DataFrame(np.zeros(10000))
@@ -23,46 +25,37 @@ for i in range(0,30,1):
     target[501:] = 0
     df_experiment = pd.DataFrame(experiment)
     df_experiment["target"] = target
+    df = df.append(df_experiment)
+    return df
 
-    X = df_experiment
-    y = df_experiment["target"]
-    nn = MLPClassifier(solver="sgd",random_state=0,max_iter=10000)
-    nn.fit(X,y)
+r = []
+f1score = []
+for i in range(1):
+    f1 = []
+    for j in range(0,500,50):
+        data = fun(j,i,24)
+        X = data
+        y = data["target"]
+        nn = MLPClassifier(solver="sgd",random_state=0,max_iter=10000)
+        nn.fit(X,y)
+        data1 = fun(j,200 + i,24)
+        X1 = data1
+        y1 = data1["target"]
+        predict = nn.predict(X1)
+        matrix = confusion_matrix(y1,predict)
+        #print(matrix)
+        F1 = f1_score(y1,predict)
+        #print(f1_score(y1,predict))
+        r.append(j)
+        f1.append(F1)
+    f1score.append(f1)
 
-    np.random.seed(1)
-    array1_1 = np.random.normal(0,1,(10000,3))
-    array2_1 = np.random.normal(0,1,(10000,3))
-    array3_1 = np.random.normal(0,24,(1,3))
-    array4_1 = np.random.normal(0,24,(i,3))
-    array2_1[:i] = array2_1[:i] + array4_1
-    array2_1[i:501] = array2_1[i:501] + array3_1
-    experiment_1 = array2_1
-    #実験群をデータフレーム化
-    target_1 = pd.DataFrame(np.zeros(10000))
-    target_1[:500] = 1
-    target_1[501:] = 0
-    df_experiment_1 = pd.DataFrame(experiment_1)
-    df_experiment_1["target"] = target_1
-    X2 = df_experiment_1
-    y2 = df_experiment_1["target"]
 
-
-    #print(nn.score(df_experiment, df_experiment["target"]))
-
-    predict = nn.predict(df_experiment_1)
-    matrix = confusion_matrix(df_experiment_1["target"],predict)
-    print(matrix)
-
-    TP = matrix[1,1]
-    FP = matrix[0,1]
-    FN = matrix[1,0]
-    P = TP + FN
-    precision = TP / (TP + FP)
-    recall = TP / P
-    F1 = 2 / (1 / precision + 1 / recall)
-    print(F1)
-    f1_score.append(F1)
-    r.append(i)
-
-plt.scatter(r,f1_score)
+print(f1score)
+print(len(r))
+ans = pd.DataFrame(r)
+for i in range(len(f1score)):
+    ans = pd.concat([ans,pd.Series(f1score[i])],axis=1)
+print(ans)
+plt.scatter(r,f1score)
 plt.show()
