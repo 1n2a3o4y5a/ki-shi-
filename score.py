@@ -18,13 +18,13 @@ def fun(x):
         np.random.seed(i)
         array1 = np.random.normal(0,1,(10000,3))
         array2 = np.random.normal(0,1,(10000,3))
-        array3 = np.random.normal(0,8,(1,3))
-        array2[:501] = array2[:501] + array3
+        array3 = np.random.normal(0,24,(500,3))
+        array2[:500] = array2[:500] + array3
         experiment = array2
         #実験群をデータフレーム化
         target = pd.DataFrame(np.zeros(10000))
         target[:500] = 1
-        target[501:] = 0
+        target[500:] = 0
         df_experiment = pd.DataFrame(experiment)
         df_experiment["target"] = target
         #k-means,matrix
@@ -35,7 +35,7 @@ def fun(x):
         for i in predict:
             pre.append(i)
         matrix = confusion_matrix(df_experiment["target"].values.tolist(), pre)
-        #print(matrix)
+        print(matrix)
         #F1スコア
         if matrix[0,0] > matrix[0,1]:
             TP = matrix[1,1]
@@ -64,7 +64,7 @@ def fun(x):
             score.append(F1)
 
 
-fun(1000)
+fun(1)
 #print(score)
 #print(tp)
 #print(fp)
