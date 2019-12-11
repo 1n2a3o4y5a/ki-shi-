@@ -262,8 +262,6 @@ for i in range(3):
 
 fig, ax = plt.subplots()
 bp = ax.boxplot(f1score)
-    
-
 plt.show()
 
 
@@ -281,14 +279,14 @@ from sklearn import datasets
 
 
 iris = datasets.load_iris()
-X = iris.data           
-Y = iris.target 
+X = iris.data
+Y = iris.target
 
 model = Sequential()
 model.add(Dense(12, input_dim=4))
 model.add(Activation('relu'))
 model.add(Dense(3, input_dim=12))
-model.add(Activation('softmax')) 
+model.add(Activation('softmax'))
 model.compile(optimizer='SGD',loss='sparse_categorical_crossentropy',metrics=['accuracy'])
 
 
@@ -299,4 +297,3 @@ model.fit(train_X, train_Y, nb_epoch=20, batch_size=5)
 f1 = f1_score(test_Y,testx)
 loss, accuracy = model.evaluate(test_X, test_Y, verbose=0)
 print("Accuracy = {:.2f}".format(accuracy))
-
