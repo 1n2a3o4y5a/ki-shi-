@@ -7,6 +7,7 @@ from sklearn.metrics import f1_score
 from sklearn import svm
 from scipy.cluster.hierarchy import linkage, dendrogram, fcluster
 from statistics import mode
+from cllections import Counter
 
 #x:ノイズ調整
 #y:seed
@@ -78,7 +79,8 @@ for j in range(1):
         #plt.figure()
         #dendrogram(result1, orientation='right', labels=list(A.index), color_threshold=0.75)
         #plt.show()
-        m = mode(clustered)
+        c = Counter(clustered)
+        m = c.most_common(1)[0][0]
         TP = 0
         FP = 0
 
