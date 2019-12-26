@@ -87,7 +87,7 @@ for j in range(1):
         for i, c in enumerate(clustered):
             if c == m and A.iloc[i].iloc[3] == 1:
                 TP += 1
-            elif c == m and A.iloc[i].iloc[3] != 0:
+            elif c == m and A.iloc[i].iloc[3] == 0:
                 FP += 1
 
         FN = 500 - TP
